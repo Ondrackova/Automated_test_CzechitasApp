@@ -44,7 +44,7 @@ public class CzechitasTest {
         loginPage.userPassword("Jana123");
         loginPage.buttonForLogin();
 
-        // find in applications page
+        // variables for new application
         var firstName = "Jirka";
         var dateBirth = "01.01.2000";
 
@@ -61,14 +61,16 @@ public class CzechitasTest {
         //assertation - applications not exist
         Assertions.assertEquals("Žádné záznamy nebyly nalezeny", emptyApplication);
 
-        //create new application with cash payment
+        //click on button More information in programing section
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.cssSelector(".card-header a"))).click();
+
+        //click on button More information in Python section
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.xpath("//*[contains(text(), 'Programování')]//ancestor::*[@class='card']//a"))).click();
-        //Click on Create application for Python course
+        //click on Create application for Python course
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.cssSelector(".card-body a")));
@@ -80,7 +82,7 @@ public class CzechitasTest {
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.cssSelector(".filter-option-inner-inner"))).click();
-        //select term which is availible
+        //select term which is available
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.id("bs-select-1-0"))).click();
@@ -107,6 +109,7 @@ public class CzechitasTest {
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.xpath("//input[@type='submit']"))).click();
+
         //assertation create application
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
@@ -134,21 +137,23 @@ public class CzechitasTest {
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.xpath("//label[@for='payment_transfer']"))).click();
-        //--click on edit application
+        //--click on Edit application
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.xpath("//input[@type='submit']"))).click();
 
+        //click on View application
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//tr[1]//a[@title='Zobrazit']"))).click(); //click on View application
+                        (By.xpath("//tr[1]//a[@title='Zobrazit']"))).click();
         WebElement checkBankAccount = browser.findElement
                 (By.xpath(".//div[contains(@class, 'col')]//div[contains(@class, 'card')]//strong[text()='Bankovní převod']"));
 
-         //assert created application with bank account payment
+         //assert - finding created application with bank account payment
         Assertions.assertTrue(checkBankAccount.isDisplayed());
     }
 
+    //change to @beforeEach after debugging
     @Test
     void clearApplication () {
         var surName = "Dobra";
@@ -156,20 +161,25 @@ public class CzechitasTest {
         browserWait.
                 until(ExpectedConditions.elementToBeClickable
                         (By.xpath("//a[@href='https://team8-2022brno.herokuapp.com/prihlaseni']"))).click();
+
         //login user
         loginPage.userEmail("da-app.master@czechitas.cz");
         loginPage.userPassword("AppRoot123");
         loginPage.buttonForLogin();
-        //go to appliction page
+
+        //go to application page
         browserWait.
                 until(ExpectedConditions.elementToBeClickable
                         (By.xpath("//*[@id='adminNavbar']//a[contains(text(), 'Přihlášky')]"))).click();
+
         //find Surname in applications
         newApplication.findApplication(surName);
+
         //click on view first application
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.xpath("//tr[1]//a[@title='Zobrazit']"))).click();
+
         //click on cancellation
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
@@ -182,14 +192,17 @@ public class CzechitasTest {
         if (!checkBox.isSelected()) { // isSelected()
             checkBox.click(); // check the checkbox
         }
+
         //insert a reason for cancellation
             browserWait.until
                     (ExpectedConditions.elementToBeClickable
                             (By.id("canceled"))).sendKeys("Because I want");
-            //click on button Edit
+
+        //click on button Edit
             browserWait.until
                     (ExpectedConditions.elementToBeClickable
                             (By.cssSelector(".btn.btn-primary"))).click();
+
             //click on button for logout
             browserWait.until
                     (ExpectedConditions.elementToBeClickable

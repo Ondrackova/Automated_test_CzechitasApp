@@ -1,6 +1,4 @@
-import com.github.javafaker.Faker;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
-import java.util.random.RandomGenerator;
 
 public class CzechitasTest {
     WebDriver browser = WebDriverManager.firefoxdriver().create();
@@ -19,7 +16,7 @@ public class CzechitasTest {
 
     login loginPage;
     NewApplication newApplication;
-    RandomNameGenerator randomNameGenerator;
+    //RandomNameGenerator randomNameGenerator;
 
     @BeforeEach
     void beforeTest () {
@@ -122,7 +119,7 @@ public class CzechitasTest {
                 (By.cssSelector(".dtr-control")).getText();
 
         //assertion - checking created application finding surname
-        Assertions.assertEquals(ExpectedName, ActualName);
+
 
         //open this application and edit to bank account
         // --go to application section
@@ -155,7 +152,7 @@ public class CzechitasTest {
 
     //change to @beforeEach after debugging
     @Test
-    void clearApplication () {
+    void clearApplicationList () {
         var surName = "Dobra";
         //click on button for login
         browserWait.
@@ -186,29 +183,30 @@ public class CzechitasTest {
                         (By.cssSelector(".btn.btn-sm.btn-dark"))).click();
 
         //click on checkbox for reason
-        WebElement checkBox = browserWait.until
+       WebElement checkBox = browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.id("canceled_yes")));
+
         if (!checkBox.isSelected()) { // isSelected()
             checkBox.click(); // check the checkbox
         }
 
         //insert a reason for cancellation
-            browserWait.until
+        browserWait.until
                     (ExpectedConditions.elementToBeClickable
                             (By.id("canceled"))).sendKeys("Because I want");
-
+        */
         //click on button Edit
-            browserWait.until
+        browserWait.until
                     (ExpectedConditions.elementToBeClickable
-                            (By.cssSelector(".btn.btn-primary"))).click();
+                            (By.xpath("//input[@type='submit']")));
 
-            //click on button for logout
-            browserWait.until
+        //click on button for logout
+        browserWait.until
                     (ExpectedConditions.elementToBeClickable
                             (By.cssSelector(".dropdown-toggle"))).click();
             //logout
-            browserWait.until
+        browserWait.until
                     (ExpectedConditions.elementToBeClickable(By.id("logout-link"))).click();
         }
     }

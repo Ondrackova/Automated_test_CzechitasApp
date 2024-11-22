@@ -1,6 +1,4 @@
-import com.github.javafaker.Faker;
 import java.util.Random;
-import static java.lang.System.*;
 
 public class RandomNameGenerator {
 

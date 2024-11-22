@@ -199,8 +199,8 @@ public class CzechitasTest {
 
         //click on checkbox for reason
        WebElement checkBox = browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.id("canceled_yes")));
+               (ExpectedConditions.visibilityOfElementLocated
+                       (By.xpath("//input[contains(@class, 'custom-control-input') and @id='canceled_yes']")));
 
         if (!checkBox.isSelected()) { // isSelected()
             checkBox.click(); // check the checkbox
@@ -209,12 +209,14 @@ public class CzechitasTest {
         //insert a reason for cancellation
         browserWait.until
                     (ExpectedConditions.elementToBeClickable
-                            (By.id("canceled"))).sendKeys("Because I want");
+                            (By.xpath("//input[contains(@class, 'form-control mt-2') and @id='canceled']")))
+                .sendKeys("Because I want");
 
         //click on button Edit
         browserWait.until
                     (ExpectedConditions.elementToBeClickable
-                            (By.xpath("//input[@type='submit']")));
+                            (By.xpath("//button[contains(@class, 'btn btn-primary')]")))
+                .click();
 
         //click on button for logout
         browserWait.until

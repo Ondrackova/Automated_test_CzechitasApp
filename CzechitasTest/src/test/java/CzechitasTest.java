@@ -12,7 +12,7 @@ import java.time.Duration;
 public class CzechitasTest {
     WebDriver browser = WebDriverManager.firefoxdriver().create();
     //add time for waiting 5 s
-    WebDriverWait browserWait = new WebDriverWait(browser, Duration.ofSeconds(3));
+    WebDriverWait browserWait = new WebDriverWait(browser, Duration.ofSeconds(4));
 
     login loginPage;
     NewApplication newApplication;
@@ -168,7 +168,7 @@ public class CzechitasTest {
     //change to @beforeEach after debugging
     @Test
     void clearApplicationList () {
-        var surName = "Dobra";
+        var surName = randomSurName;
         //click on button for login
         browserWait.
                 until(ExpectedConditions.elementToBeClickable
@@ -199,14 +199,17 @@ public class CzechitasTest {
 
         //click on checkbox for reason
        WebElement checkBox = browserWait.until
-               (ExpectedConditions.visibilityOfElementLocated
-                       (By.xpath("//input[contains(@class, 'custom-control-input') and @id='canceled_yes']")));
+               (ExpectedConditions.elementToBeClickable
+                       (By.xpath("//label[@for='canceled_yes']")));
 
-        if (!checkBox.isSelected()) { // isSelected()
-            checkBox.click(); // check the checkbox
+        String checked = checkBox.getAttribute("checked");
+
+        if (checked == null) {  //if checkbox is null
+            checkBox.click();  //check the checkbox
         }
+        System.out.println(checked);
 
-        //insert a reason for cancellation
+            //insert a reason for cancellation
         browserWait.until
                     (ExpectedConditions.elementToBeClickable
                             (By.xpath("//input[contains(@class, 'form-control mt-2') and @id='canceled']")))
@@ -215,14 +218,14 @@ public class CzechitasTest {
         //click on button Edit
         browserWait.until
                     (ExpectedConditions.elementToBeClickable
-                            (By.xpath("//input[type='submit'].btn.btn-primary[value='Upravit']")))
+                            (By.xpath("//*[@id='studentCancel']/div/div/div[2]/form/input[4]")))
                 .click();
 
         //click on button for logout
-        browserWait.until
+        /*browserWait.until
                     (ExpectedConditions.elementToBeClickable
-                            (By.cssSelector(".dropdown-toggle"))).click();
-            //logout
+                            (By.xpath("//*[@id='navbarSupportedContent']/div[2]/div/a")))
+*/            //logout
         browserWait.until
                     (ExpectedConditions.elementToBeClickable(By.id("logout-link"))).click();
         }

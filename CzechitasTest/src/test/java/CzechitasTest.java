@@ -113,12 +113,20 @@ public class CzechitasTest {
                         (By.xpath("//*[@id='navbarSupportedContent']//a[contains(text(), 'Přihlášky')]"))).click(); //back to application page
 
         //variable for full name
-        var ExpectedName = firstName + " " + randomSurName;
+        var expectedName = firstName + " " + randomSurName;
+
         //variable Actual name, which is on user applications
-        var ActualName = browser.findElement
+        var actualName = browser.findElement
                 (By.cssSelector(".dtr-control")).getText();
 
         //assertion - checking created application finding surname
+        Assertions.assertEquals(expectedName, actualName);
+
+        //write output of assertion to the terminal
+        System.out.println("Expected name: ");
+        System.out.println(expectedName);
+        System.out.println("Actual name: ");
+        System.out.println(actualName);
 
 
         //open this application and edit to bank account
@@ -148,6 +156,13 @@ public class CzechitasTest {
 
          //assert - finding created application with bank account payment
         Assertions.assertTrue(checkBankAccount.isDisplayed());
+
+        //pom variables for output
+        var paynmentMethod = checkBankAccount.getText();
+
+        //write output assert to the terminal
+        System.out.println("Paynment method :");
+        System.out.println(paynmentMethod);
     }
 
     //change to @beforeEach after debugging
@@ -195,7 +210,7 @@ public class CzechitasTest {
         browserWait.until
                     (ExpectedConditions.elementToBeClickable
                             (By.id("canceled"))).sendKeys("Because I want");
-        */
+
         //click on button Edit
         browserWait.until
                     (ExpectedConditions.elementToBeClickable

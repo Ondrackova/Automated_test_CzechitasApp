@@ -215,7 +215,7 @@ public class CzechitasTest {
         //click on button Edit
         browserWait.until
                     (ExpectedConditions.elementToBeClickable
-                            (By.xpath("//button[contains(@class, 'btn btn-primary')]")))
+                            (By.xpath("//input[type='submit'].btn.btn-primary[value='Upravit']")))
                 .click();
 
         //click on button for logout
@@ -226,4 +226,5 @@ public class CzechitasTest {
         browserWait.until
                     (ExpectedConditions.elementToBeClickable(By.id("logout-link"))).click();
         }
+
     }

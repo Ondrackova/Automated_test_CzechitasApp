@@ -222,10 +222,10 @@ public class CzechitasTest {
                 .click();
 
         //click on button for logout
-        /*browserWait.until
+        browserWait.until
                     (ExpectedConditions.elementToBeClickable
                             (By.xpath("//*[@id='navbarSupportedContent']/div[2]/div/a")))
-*/            //logout
+            //logout
         browserWait.until
                     (ExpectedConditions.elementToBeClickable(By.id("logout-link"))).click();
         }

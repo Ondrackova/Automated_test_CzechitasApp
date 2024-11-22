@@ -225,6 +225,7 @@ public class CzechitasTest {
         browserWait.until
                     (ExpectedConditions.elementToBeClickable
                             (By.xpath("//*[@id='navbarSupportedContent']/div[2]/div/a")))
+                .click();
             //logout
         browserWait.until
                     (ExpectedConditions.elementToBeClickable(By.id("logout-link"))).click();

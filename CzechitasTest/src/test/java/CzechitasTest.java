@@ -1,3 +1,4 @@
+import czechitas.cz.ExpectedOutput;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,7 @@ public class CzechitasTest {
 
     login loginPage;
     NewApplication newApplication;
+    ExpectedOutput expectedOutput;
     //RandomNameGenerator randomNameGenerator;
 
     @BeforeEach
@@ -25,6 +27,7 @@ public class CzechitasTest {
 
         loginPage = new login(browser);
         newApplication = new NewApplication(browser);
+        expectedOutput = new ExpectedOutput(browser);
     }
 
     String randomSurName = RandomNameGenerator.randomNameGenerator();
@@ -55,8 +58,15 @@ public class CzechitasTest {
         //variable for getting information about created applications
         var emptyApplication = browser.findElement(By.cssSelector(".odd")).getText();
 
+        //var cancelledApplication = browser.findElement(By.xpath("//*[@id='DataTables_Table_0']/tbody/tr[1]/td[5]/span/text()")).getText();
+
         //assertation - applications not exist
-        Assertions.assertEquals("Žádné záznamy nebyly nalezeny", emptyApplication);
+        Assertions.assertEquals("Žádné záznamy nebyly nalezeny",emptyApplication);
+        //Assertions.assertTrue(
+                //emptyApplication.equals("Žádné záznamy nebyly nalezeny") || emptyApplication.equals(cancelledApplication));
+
+        //System.out.println(cancelledApplication);
+        System.out.println(emptyApplication);
 
         //click on button More information in programing section
         browserWait.until

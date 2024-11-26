@@ -21,7 +21,8 @@ public class ExpectedOutput {
     // Method to check if the output matches expected values
     public static boolean isExpectedOutput(String emptyApplication) {
 
-        return emptyApplication.equals("Žádné záznamy nebyly nalezeny");
+        return emptyApplication.equals("Žádné záznamy nebyly nalezeny")||
+                emptyApplication.equals("Přihláška je zrušena z důvodu: Because I want");
 
     }
 

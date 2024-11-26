@@ -14,14 +14,31 @@ public class login {
         this.browser = browser;
         this.browserWait = new WebDriverWait(browser, Duration.ofSeconds(5));
     }
+    //click on button for login user
+        void firstButtonLogin () {
+            browserWait.until
+                    (ExpectedConditions.elementToBeClickable
+                            (By.xpath("//a[@href='https://team8-2022brno.herokuapp.com/prihlaseni']"))).click();
+
+        }
+
     void userEmail (String email) {
-        browserWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='email']"))).sendKeys(email);
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.xpath("//*[@id='email']")))
+                .sendKeys(email);
     }
     void userPassword (String password) {
-        browserWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='password']"))).sendKeys(password);
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.xpath("//*[@id='password']")))
+                .sendKeys(password);
     }
     void buttonForLogin () {
-        browserWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='submit']"))).click();
+        browserWait.until
+                (ExpectedConditions.elementToBeClickable
+                        (By.xpath("//button[@type='submit']")))
+                .click();
     }
 
 }

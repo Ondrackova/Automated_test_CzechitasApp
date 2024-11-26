@@ -1,4 +1,4 @@
-import czechitas.cz.ExpectedOutput;
+import czechitas.cz.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,12 +12,18 @@ import java.time.Duration;
 
 public class CzechitasTest {
     WebDriver browser = WebDriverManager.firefoxdriver().create();
-    //add time for waiting 5 s
+    //add time for waiting 4 s
     WebDriverWait browserWait = new WebDriverWait(browser, Duration.ofSeconds(4));
 
     login loginPage;
-    NewApplication newApplication;
     ExpectedOutput expectedOutput;
+    MainSection mainSection;
+    NewApplication newApplication;
+    ProgrammingSection programingSection;
+    PythonSection pythonSection;
+    ApplicationSection applicationSection;
+    ApplicationDetailsSection applicationDetailsSection;
+
     //RandomNameGenerator randomNameGenerator;
 
     @BeforeEach
@@ -26,19 +32,24 @@ public class CzechitasTest {
         browser.get("https://team8-2022brno.herokuapp.com/");
 
         loginPage = new login(browser);
-        newApplication = new NewApplication(browser);
         expectedOutput = new ExpectedOutput(browser);
+        mainSection = new MainSection(browser);
+        newApplication = new NewApplication(browser);
+        programingSection = new ProgrammingSection(browser);
+        pythonSection = new PythonSection(browser);
+        applicationSection = new ApplicationSection(browser);
+        applicationDetailsSection = new ApplicationDetailsSection(browser);
     }
 
+    //random surname generator
     String randomSurName = RandomNameGenerator.randomNameGenerator();
 
     @Test
     void ApplicationTest () {
 
         //click on button for login user
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//a[@href='https://team8-2022brno.herokuapp.com/prihlaseni']"))).click();
+        loginPage.firstButtonLogin();
+
         //login user
         loginPage.userEmail("dobra@gmail.com");
         loginPage.userPassword("Jana123");
@@ -49,78 +60,59 @@ public class CzechitasTest {
         var dateBirth = "01.01.2000";
 
         // go to application section
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='navbarSupportedContent']//a[contains(text(), 'Přihlášky')]"))).click();
+        mainSection.applicationSection();
+
         //find application
         newApplication.findApplication(randomSurName);
 
         //variable for getting information about created applications
         var emptyApplication = browser.findElement(By.cssSelector(".odd")).getText();
 
-        //var cancelledApplication = browser.findElement(By.xpath("//*[@id='DataTables_Table_0']/tbody/tr[1]/td[5]/span/text()")).getText();
 
-        //assertation - applications not exist
-        Assertions.assertEquals("Žádné záznamy nebyly nalezeny",emptyApplication);
-        //Assertions.assertTrue(
-                //emptyApplication.equals("Žádné záznamy nebyly nalezeny") || emptyApplication.equals(cancelledApplication));
+        //assertation - applications not exist or the application is canceled
+        Assertions.assertTrue(ExpectedOutput.isExpectedOutput(emptyApplication));
 
-        //System.out.println(cancelledApplication);
+        //write an output to the terminal
         System.out.println(emptyApplication);
 
         //click on button More information in programing section
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.cssSelector(".card-header a"))).click();
+        programingSection.MoreInformationProgramming();
 
         //click on button More information in Python section
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[contains(text(), 'Programování')]//ancestor::*[@class='card']//a"))).click();
-        //click on Create application for Python course
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.cssSelector(".card-body a")));
-        //click on select Term
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//a[@href='https://team8-2022brno.herokuapp.com/zaci/pridat/4-python']"))).click();
-        //open terms
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.cssSelector(".filter-option-inner-inner"))).click();
-        //select term which is available
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.id("bs-select-1-0"))).click();
-        // insert student first name
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='forename']"))).sendKeys(firstName);
-        //insert last name
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='surname']"))).sendKeys(randomSurName);
-        //insert birthdate
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='birthday']"))).sendKeys(dateBirth);
-        //select cash payment method
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//label[@for='payment_cash']"))).click();
-        //Check GDPR
-        browserWait.until(ExpectedConditions.elementToBeClickable
-                (By.xpath("//label[@for='terms_conditions']"))).click();
-        //create application
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//input[@type='submit']"))).click();
+        pythonSection.MoreInformationPython();
 
-        //assertation create application
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='navbarSupportedContent']//a[contains(text(), 'Přihlášky')]"))).click(); //back to application page
+        //click on Create application for Python course
+        pythonSection.createApplicationPython();
+
+        //click on select Term
+        newApplication.termPython();
+
+        //open terms
+        newApplication.openTerms();
+
+        //select term which is available
+        newApplication.selectTerm();
+
+        // insert student first name
+        newApplication.studentFirstName(firstName);
+
+        //insert last name
+        newApplication.studentLastName(randomSurName);
+
+        //insert birthdate
+        newApplication.studentBirthDate(dateBirth);
+
+        //select cash payment method
+        newApplication.cashPayment();
+
+        //Check GDPR
+        newApplication.enabledGDPR();
+
+        //create application
+        newApplication.createApplication();
+
+        //go to application section
+        mainSection.applicationSection();
 
         //variable for full name
         var expectedName = firstName + " " + randomSurName;
@@ -141,45 +133,40 @@ public class CzechitasTest {
 
         //open this application and edit to bank account
         // --go to application section
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='navbarSupportedContent']//a[contains(text(), 'Přihlášky')]"))).click();
+        mainSection.applicationSection();
+
         // --edit application
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//tr[1]//a[@title='Upravit']"))).click();
+        applicationSection.editApplication();
+
         //--select bank account payment method
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//label[@for='payment_transfer']"))).click();
+        applicationDetailsSection.BankPayment();
+
         //--click on Edit application
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//input[@type='submit']"))).click();
+        applicationDetailsSection.createUpdateApplication();
 
         //click on View application
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//tr[1]//a[@title='Zobrazit']"))).click();
+        applicationSection.viewCreatedApplications();
+
+        //checking that created application has payment with bank account
         WebElement checkBankAccount = browser.findElement
                 (By.xpath(".//div[contains(@class, 'col')]//div[contains(@class, 'card')]//strong[text()='Bankovní převod']"));
 
-         //assert - finding created application with bank account payment
+        //assert - finding created application with bank account payment
         Assertions.assertTrue(checkBankAccount.isDisplayed());
 
         //pom variables for output
-        var paynmentMethod = checkBankAccount.getText();
+        var paymentMethod = checkBankAccount.getText();
 
         //write output assert to the terminal
-        System.out.println("Paynment method :");
-        System.out.println(paynmentMethod);
+        System.out.println("Payment method :");
+        System.out.println(paymentMethod);
     }
 
     //change to @beforeEach after debugging
     @Test
     void clearApplicationList () {
-        var surName = randomSurName;
-        //click on button for login
+
+        //button for login user
         browserWait.
                 until(ExpectedConditions.elementToBeClickable
                         (By.xpath("//a[@href='https://team8-2022brno.herokuapp.com/prihlaseni']"))).click();
@@ -190,25 +177,19 @@ public class CzechitasTest {
         loginPage.buttonForLogin();
 
         //go to application page
-        browserWait.
-                until(ExpectedConditions.elementToBeClickable
-                        (By.xpath("//*[@id='adminNavbar']//a[contains(text(), 'Přihlášky')]"))).click();
+       mainSection.applicationSectionAdmin();
 
         //find Surname in applications
-        newApplication.findApplication(surName);
+        newApplication.findApplication(randomSurName);
 
         //click on view first application
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.xpath("//tr[1]//a[@title='Zobrazit']"))).click();
+        applicationSection.viewCreatedApplications();
 
         //click on cancellation
-        browserWait.until
-                (ExpectedConditions.elementToBeClickable
-                        (By.cssSelector(".btn.btn-sm.btn-dark"))).click();
+        applicationSection.cancellationApplicationAdmin();
 
         //click on checkbox for reason
-       WebElement checkBox = browserWait.until
+        WebElement checkBox = browserWait.until
                (ExpectedConditions.elementToBeClickable
                        (By.xpath("//label[@for='canceled_yes']")));
 
@@ -236,6 +217,7 @@ public class CzechitasTest {
                     (ExpectedConditions.elementToBeClickable
                             (By.xpath("//*[@id='navbarSupportedContent']/div[2]/div/a")))
                 .click();
+
             //logout
         browserWait.until
                     (ExpectedConditions.elementToBeClickable(By.id("logout-link"))).click();

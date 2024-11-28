@@ -5,12 +5,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class login {
+public class Login {
     WebDriver browser;
     WebDriverWait browserWait;
 
     //browser inicialization
-    public login(WebDriver browser) {
+    public Login(WebDriver browser) {
         this.browser = browser;
         this.browserWait = new WebDriverWait(browser, Duration.ofSeconds(5));
     }

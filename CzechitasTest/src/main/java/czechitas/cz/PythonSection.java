@@ -18,7 +18,7 @@ public class PythonSection {
     }
 
     //click on more information button on Python section
-    public void MoreInformationPython() {
+    public void moreInformationPython() {
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.xpath("//*[contains(text(), 'Programování')]//ancestor::*[@class='card']//a"))).click();

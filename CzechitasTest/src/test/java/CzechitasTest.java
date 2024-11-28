@@ -15,7 +15,7 @@ public class CzechitasTest {
     //add time for waiting 4 s
     WebDriverWait browserWait = new WebDriverWait(browser, Duration.ofSeconds(4));
 
-    login loginPage;
+    Login loginPage;
     ExpectedOutput expectedOutput;
     MainSection mainSection;
     NewApplication newApplication;
@@ -31,7 +31,7 @@ public class CzechitasTest {
         //loading the web
         browser.get("https://team8-2022brno.herokuapp.com/");
 
-        loginPage = new login(browser);
+        loginPage = new Login(browser);
         expectedOutput = new ExpectedOutput(browser);
         mainSection = new MainSection(browser);
         newApplication = new NewApplication(browser);
@@ -79,7 +79,7 @@ public class CzechitasTest {
         programingSection.MoreInformationProgramming();
 
         //click on button More information in Python section
-        pythonSection.MoreInformationPython();
+        pythonSection.moreInformationPython();
 
         //click on Create application for Python course
         pythonSection.createApplicationPython();

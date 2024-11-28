@@ -17,7 +17,7 @@ public class ApplicationDetailsSection {
     }
 
     //select bank account payment method
-    public void BankPayment () {
+    public void bankPayment () {
         browserWait.until
                 (ExpectedConditions.elementToBeClickable
                         (By.xpath("//label[@for='payment_transfer']"))).click();

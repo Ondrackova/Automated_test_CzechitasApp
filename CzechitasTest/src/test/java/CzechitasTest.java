@@ -139,7 +139,7 @@ public class CzechitasTest {
         applicationSection.editApplication();
 
         //--select bank account payment method
-        applicationDetailsSection.BankPayment();
+        applicationDetailsSection.bankPayment();
 
         //--click on Edit application
         applicationDetailsSection.createUpdateApplication();
